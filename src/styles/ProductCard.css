@@ -1,0 +1,43 @@
+.card {
+  background: #252525;
+
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  transition: all 0.2s ease;
+
+  text-align: center;
+
+  justify-content: center;
+
+  border: 2px solid gray;
+
+  cursor: pointer;
+
+  & img {
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
+
+    object-fit: cover;
+  }
+
+  & h2 {
+    margin: 0;
+
+    font-size: 1.4rem;
+  }
+
+  & p {
+    margin: 8px 0;
+  }
+
+  & .price {
+    color: #27ae60;
+
+    font-size: 20px;
+
+    font-weight: bold;
+  }
+}
