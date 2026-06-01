@@ -30,13 +30,15 @@ export default function ProductDetailPage() {
   return (
     <>
       <div className="product-details">
-        <Link to={`/`} className="back-link">~Go back </Link>
+        <Link to={`/`} className="back-link">
+          ← Go back{" "}
+        </Link>
         <h1>Product details</h1>
 
         <img src={product.image} alt={product.name} />
         <h2>{product.name}</h2>
         <p>Category: {product.category}</p>
-        <p className="price">{product.price}</p>
+        <p className="price">${product.price}</p>
         <p>{product.description}</p>
       </div>
       <div className="button-section">

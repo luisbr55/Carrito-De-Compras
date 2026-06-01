@@ -3,10 +3,12 @@ import { API_URL } from "./constants";
 import { useEffect, useState } from "react";
 import "../styles/CatalogPage.css";
 import ProductCard from "../components/ProductCard";
+import { useNavigate } from "react-router-dom";
 
 export default function CatalogPage() {
   // Hook creation
   const [products, setProducts] = useState([]);
+
 
   useEffect(() => {
     async function getProducts() {
@@ -18,11 +20,14 @@ export default function CatalogPage() {
     getProducts();
   }, []);
 
+  const navigate = useNavigate()
+
+
   return (
     <>
       <div className="header-section">
         <h1>Product Catalog</h1>
-        <button>+ New product</button>
+        <button onClick={() => navigate(`/products/new`)}>+ New product</button>
       </div>
       <div className="product-list">
         
