@@ -1,13 +1,15 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { API_URL } from "./constants";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import "../styles/ProductDetailPage.css";
 
 export default function ProductDetailPage() {
   const [product, setProduct] = useState();
 
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getProduct() {
@@ -42,7 +44,7 @@ export default function ProductDetailPage() {
         <p>{product.description}</p>
       </div>
       <div className="button-section">
-        <button className="btn-edit">Edit</button>
+        <button className="btn-edit" onClick = {() => navigate(`/products/${id}/edit`)}>Edit</button>
         <button className="btn-delete">Delete</button>
       </div>
     </>

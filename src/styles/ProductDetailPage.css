@@ -1,11 +1,11 @@
 .product-details {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin: 40px;
-  padding: 40px;
+  align-items: center;
   gap: 10px;
-
+  padding: 10px;
+  margin: 10px;
+  
   & h1 {
     font-size: 40px;
     font-weight: bold;
@@ -23,7 +23,7 @@
     font-size: 1rem;
   }
 
-  & .back-link:hover{
+  & .back-link:hover {
     color: white;
     transition: 0.4s ease;
   }

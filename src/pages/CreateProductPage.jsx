@@ -1,7 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/CreateProductPage.css";
 
+
+
+
+
 export default function CreateProductPage() {
+
+    const navigate = useNavigate();
+
   return (
     <>
       <div className="new-product">
@@ -20,7 +27,7 @@ export default function CreateProductPage() {
         <input type="text" name="Category" />
         <label>Description</label>
         <textarea />
-        <button>Create Product</button>
+        <button onClick={() => navigate ("/")}>Create Product</button>
       </div>
     </>
   );
