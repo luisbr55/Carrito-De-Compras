@@ -25,6 +25,23 @@ export default function ProductDetailPage() {
     getProduct();
   }, [id]);
 
+
+// Apartado para el boton de eliminar
+
+const handleDelete = async () => {
+  const confirmDelete = confirm("Do you want to delete the product?");
+
+  if(!confirmDelete){
+    return;
+  }
+  try{
+    await axios.delete(`${API_URL}/${id}`);
+    navigate(`/`);
+  }catch (error){
+    alert("Error when trying to delete the product" + error.message);
+  }
+}
+
   if (!product) {
     return <h1>Loading...</h1>;
   }
@@ -45,7 +62,7 @@ export default function ProductDetailPage() {
       </div>
       <div className="button-section">
         <button className="btn-edit" onClick = {() => navigate(`/products/${id}/edit`)}>Edit</button>
-        <button className="btn-delete">Delete</button>
+        <button className="btn-delete" onClick={handleDelete}>Delete</button>
       </div>
     </>
   );
