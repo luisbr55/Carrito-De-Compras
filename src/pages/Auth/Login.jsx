@@ -1,29 +1,42 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../styles/Auth.css";
+import { supabase } from "../../lib/supabase";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
 
-  const [password, setPassword] = useState("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  function handleUsername(e) {
-    setUsername(e.target.value);
-  }
+    
 
-  function handlePassword(e) {
-    setPassword(e.target.value);
-  }
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      alert("Error signing in" + error.message);
+      return;
+    }
+    console.log("navigating")
+    navigate("/");
+  };
 
   return (
     <div className="auth-container">
       <div className="auth-card">
         <h1>Login</h1>
-        <form>
-          <input type="text" value={username} onChange={handleUsername} placeholder="Username"/>
-          <input type="password" value={password} onChange={handlePassword} placeholder="Password" />
+        <form onSubmit={handleSubmit}>
+          <input type="email" name="email" placeholder="Email" />
+          <input type="password" name="password" placeholder="Password" />
+          <button type="submit">Login</button>
         </form>
-        <button>Login</button>
+        
         <div className="auth-links">
           <Link to={`/forgot-password`} className="back-link">
             Forgot Password?{" "}

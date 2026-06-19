@@ -1,67 +1,66 @@
 import { Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
+
 import CatalogPage from "./pages/CatalogPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import CreateProductPage from "./pages/CreateProductPage";
 import EditProductPage from "./pages/EditProductPage";
+
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import UpdatePassword from "./pages/Auth/UpdatePassword";
+
 import PrivateRoute from "./components/PrivateRoute";
+import Layout from "./components/Layout";
+
+import { supabase } from "./lib/supabase";
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+
+
+ 
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsLoggedIn(!!session);
+
+      if (session) {
+        setUser(session.user);
+      }
+      else{
+        setUser(null);
+      }
+     
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   return (
     <Routes>
-      {/* Públicas */}
+      {/* Rutas públicas */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/update-password" element={<UpdatePassword />} />
 
-      {/* Privadas */}
+      {/* Rutas privadas */}
       <Route
-        path="/"
         element={
-          <PrivateRoute>
-            <CatalogPage />
+          <PrivateRoute isLoggedIn={isLoggedIn}>
+            <Layout user = {user}/>
           </PrivateRoute>
         }
-      />
-
-      <Route
-        path="/products/new"
-        element={
-          <PrivateRoute>
-            <CreateProductPage />
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/products/:id/edit"
-        element={
-          <PrivateRoute>
-            <EditProductPage />
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/products/:id"
-        element={
-          <PrivateRoute>
-            <ProductDetailPage />
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/update-password"
-        element={
-          <PrivateRoute>
-            <UpdatePassword />
-          </PrivateRoute>
-        }
-      />
+      >
+        <Route path="/" element={<CatalogPage/>} />
+        <Route path="/products/new" element={<CreateProductPage />} />
+        <Route path="/products/:id/edit" element={<EditProductPage />} />
+        <Route path="/products/:id" element={<ProductDetailPage />} />
+      </Route>
 
       {/* 404 */}
       <Route path="*" element={<h1>404 - Page Not Found</h1>} />

@@ -1,0 +1,53 @@
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+    padding: 1rem 2rem;
+  
+    background-color: #222;
+    border-bottom: 1px solid #444;
+  
+    color: white;
+  }
+  
+  .nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  .nav a:hover {
+    color: #4caf50;
+  }
+  
+  .nav > div:last-child {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .nav h5 {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #ccc;
+  }
+  
+  .nav button {
+    padding: 0.5rem 1rem;
+  
+    border: none;
+    border-radius: 8px;
+  
+    background-color: #4caf50;
+    color: white;
+  
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .nav button:hover {
+    background-color: #3f9142;
+  }
