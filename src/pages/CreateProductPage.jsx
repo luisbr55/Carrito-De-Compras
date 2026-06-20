@@ -3,9 +3,11 @@ import "../styles/CreateProductPage.css";
 import { API_URL } from "./constants";
 import axios from "axios";
 import { useState } from "react";
+import { getCurrentSupabaseUser } from "../lib/getUser";
 
 export default function CreateProductPage() {
   const navigate = useNavigate();
+  const [user, setUser] = useState();
 
   const [product, setProduct] = useState({
     name: "",
@@ -13,6 +15,7 @@ export default function CreateProductPage() {
     image: "",
     category: "",
     description: "",
+    user_id: user.id
   });
 
   const handleChange = (e) => {
@@ -20,6 +23,11 @@ export default function CreateProductPage() {
       ...product,
       [e.target.name]: e.target.value,
     });
+    async function getUser() {
+      const currentUser = await getCurrentSupabaseUser();
+      setUser(currentUser);
+    }
+    getUser();
   };
 
   const handleSave = async () => {

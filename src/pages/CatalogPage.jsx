@@ -9,7 +9,6 @@ export default function CatalogPage() {
   // Hook creation
   const [products, setProducts] = useState([]);
 
-
   useEffect(() => {
     async function getProducts() {
       const res = await axios.get(API_URL);
@@ -17,11 +16,11 @@ export default function CatalogPage() {
 
       setProducts(data);
     }
+
     getProducts();
   }, []);
 
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   return (
     <>
@@ -30,17 +29,16 @@ export default function CatalogPage() {
         <button onClick={() => navigate(`/products/new`)}>+ New product</button>
       </div>
       <div className="product-list">
-        
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              id={product.id}
-              image={product.image}
-              name={product.name}
-              category={product.category}
-              price={product.price}
-            />
-          ))}
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            id={product.id}
+            image={product.image}
+            name={product.name}
+            category={product.category}
+            price={product.price}
+          />
+        ))}
       </div>
     </>
   );
