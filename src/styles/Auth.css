@@ -54,23 +54,23 @@
     font-size: 1rem;
   }
 
-  & button{
+  & button {
     width: 100%;
 
     padding: 16px;
-  
+
     border: none;
-  
+
     border-radius: 10px;
-  
+
     background: #111;
-  
+
     color: white;
-  
+
     font-size: 1.1rem;
-  
+
     font-weight: 600;
-  
+
     cursor: pointer;
   }
 }
@@ -80,14 +80,55 @@
   justify-content: space-between;
   font-size: 0.85em;
   margin-inline: 40px;
-    
-  & a{
+
+  & a {
     text-decoration: none;
     color: white;
   }
 
-  & a:hover{
-    color: #9a9a9a ;
+  & a:hover {
+    color: #9a9a9a;
     transition: 0.3s ease;
+  }
+}
+
+@media (max-width: 450px) {
+  .auth-container {
+    min-height: 100vh;
+
+    padding: 16px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+  }
+
+  .auth-card {
+    width: 100%;
+
+    max-width: 360px;
+
+    padding: 24px;
+
+    margin: 0;
+
+    border-radius: 12px;
+
+    gap: 16px;
+
+    & button{
+      width: 100%;
+
+      min-height: 48px; 
+    }
+
+    & input{
+
+      width: 100%;
+
+      min-height: 48px; 
+    }
   }
 }
