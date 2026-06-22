@@ -1,8 +1,7 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { API_URL } from "./constants";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import "../styles/ProductDetailPage.css";
+import { supabase } from "../lib/supabase";
 
 export default function ProductDetailPage() {
   const [product, setProduct] = useState();
@@ -14,33 +13,34 @@ export default function ProductDetailPage() {
   useEffect(() => {
     async function getProduct() {
       try {
-        const res = await axios.get(`${API_URL}/${id}`);
-
-        console.log(id);
-        setProduct(res.data);
+        const { data } = await supabase
+          .from("products")
+          .select("*")
+          .eq("id", id)
+          .single();
+        setProduct(data);
       } catch (error) {
         console.log(error.message);
       }
     }
-    getProduct();
+    if (id) getProduct();
   }, [id]);
 
+  // Apartado para el boton de eliminar
 
-// Apartado para el boton de eliminar
+  const handleDelete = async () => {
+    const confirmDelete = confirm("Do you want to delete the product?");
 
-const handleDelete = async () => {
-  const confirmDelete = confirm("Do you want to delete the product?");
-
-  if(!confirmDelete){
-    return;
-  }
-  try{
-    await axios.delete(`${API_URL}/${id}`);
-    navigate(`/`);
-  }catch (error){
-    alert("Error when trying to delete the product" + error.message);
-  }
-}
+    if (!confirmDelete) {
+      return;
+    }
+    try {
+      await supabase.from("products").delete().eq("id", product.id);
+      navigate(`/`);
+    } catch (error) {
+      alert("Error when trying to delete the product" + error.message);
+    }
+  };
 
   if (!product) {
     return <h1>Loading...</h1>;
@@ -61,8 +61,15 @@ const handleDelete = async () => {
         <p>{product.description}</p>
       </div>
       <div className="button-section">
-        <button className="btn-edit" onClick = {() => navigate(`/products/${id}/edit`)}>Edit</button>
-        <button className="btn-delete" onClick={handleDelete}>Delete</button>
+        <button
+          className="btn-edit"
+          onClick={() => navigate(`/products/${id}/edit`)}
+        >
+          Edit
+        </button>
+        <button className="btn-delete" onClick={handleDelete}>
+          Delete
+        </button>
       </div>
     </>
   );

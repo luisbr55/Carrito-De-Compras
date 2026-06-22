@@ -1,9 +1,8 @@
-import axios from "axios";
-import { API_URL } from "./constants";
 import { useEffect, useState } from "react";
 import "../styles/CatalogPage.css";
 import ProductCard from "../components/ProductCard";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "../lib/supabase";
 
 export default function CatalogPage() {
   // Hook creation
@@ -11,12 +10,17 @@ export default function CatalogPage() {
 
   useEffect(() => {
     async function getProducts() {
-      const res = await axios.get(API_URL);
-      const data = res.data;
+      const { data: products, error } = await supabase
+        .from("products")
+        .select();
 
-      setProducts(data);
+      if (error) {
+        alert("Error importing the products!" + error.message);
+        return;
+      }
+
+      setProducts(products);
     }
-
     getProducts();
   }, []);
 

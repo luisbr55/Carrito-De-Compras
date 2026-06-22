@@ -3,11 +3,10 @@ import "../styles/EditProductPage.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "./constants";
+import { supabase } from "../lib/supabase";
 
 export default function EditProductPage() {
   const navigate = useNavigate();
-
-
 
   const { id } = useParams();
 
@@ -23,34 +22,49 @@ export default function EditProductPage() {
 
   const handleChange = (e) => {
     setProduct({
-        ...product,
-        [e.target.name]: e.target.value,
+      ...product,
+      [e.target.name]: e.target.value,
     });
   };
- 
+
   //****************************************** */
   useEffect(() => {
     async function getProduct() {
-      const res = await axios.get(`${API_URL}/${id}`);
-      setProduct(res.data);
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("id", id)
+        .single();
+      setProduct(data);
+
+      if (error) {
+        alert("Error loading product deatils!" + error.message);
+        return;
+      }
     }
     getProduct();
   }, [id]);
 
   // Funcion para guardar cambios
 
-  async function updateProduct(){
-    try{
-        await axios.put(`${API_URL}/${id}`, product);
+  async function updateProduct() {
+    try {
+      const { error } = await supabase
+        .from("products")
+        .update(product)
+        .eq("id", id);
 
-        alert("Product updated");
-        navigate(`/products/${id}`);
-    }
-    catch (error){
-        console.log(error.message);
+      if (error) {
+        alert("Error updating product!" + error.message);
+        return;
+      }
+
+      alert("Product updated");
+      navigate(`/products/${id}`);
+    } catch (error) {
+      console.log(error.message);
     }
   }
-
 
   return (
     <>
@@ -61,15 +75,39 @@ export default function EditProductPage() {
 
         <h1>Edit Product</h1>
         <label>Name </label>
-        <input type="text" name="name" value={product.name} onChange={handleChange}/>
+        <input
+          type="text"
+          name="name"
+          value={product.name}
+          onChange={handleChange}
+        />
         <label>Price</label>
-        <input type="text" name="price" value={product.price} onChange={handleChange}/>
+        <input
+          type="text"
+          name="price"
+          value={product.price}
+          onChange={handleChange}
+        />
         <label>Image URL</label>
-        <input type="text" name="image" value={product.image} onChange={handleChange}/>
+        <input
+          type="text"
+          name="image"
+          value={product.image}
+          onChange={handleChange}
+        />
         <label>Category</label>
-        <input type="text" name="category" value={product.category} onChange={handleChange}/>
+        <input
+          type="text"
+          name="category"
+          value={product.category}
+          onChange={handleChange}
+        />
         <label>Description</label>
-        <textarea name="description" value={product.description} onChange={handleChange}/>
+        <textarea
+          name="description"
+          value={product.description}
+          onChange={handleChange}
+        />
         <button onClick={updateProduct}>Save changes</button>
       </div>
     </>

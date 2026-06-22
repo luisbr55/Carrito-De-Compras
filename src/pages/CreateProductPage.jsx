@@ -1,9 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/CreateProductPage.css";
-import { API_URL } from "./constants";
-import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getCurrentSupabaseUser } from "../lib/getUser";
+import { supabase } from "../lib/supabase";
 
 export default function CreateProductPage() {
   const navigate = useNavigate();
@@ -15,7 +14,7 @@ export default function CreateProductPage() {
     image: "",
     category: "",
     description: "",
-    user_id: user.id
+    
   });
 
   const handleChange = (e) => {
@@ -23,12 +22,15 @@ export default function CreateProductPage() {
       ...product,
       [e.target.name]: e.target.value,
     });
+  };
+
+  useEffect(() => {
     async function getUser() {
       const currentUser = await getCurrentSupabaseUser();
       setUser(currentUser);
     }
     getUser();
-  };
+  });
 
   const handleSave = async () => {
     if (!product.name || !product.price || !product.category) {
@@ -36,8 +38,17 @@ export default function CreateProductPage() {
       return;
     }
 
+    if (!user) {
+      alert("User not detected!");
+      return;
+    }
+
     try {
-      await axios.post(API_URL, product);
+      await supabase.from("products").insert({
+        ...product,
+        user_id: user.id
+      });
+      alert("Product created correctly!");
       navigate("/");
     } catch (error) {
       alert("Error creating product" + error.message);
