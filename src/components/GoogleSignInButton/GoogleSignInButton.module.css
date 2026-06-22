@@ -1,35 +1,38 @@
 .button {
-	display: inline-flex;
+	display: flex;
 	align-items: center;
+	justify-content: center;
 	gap: 12px;
+  
 	padding: 14px 24px;
 	background-color: #fff;
 	border: 1px solid #dadce0;
 	border-radius: 8px;
 	cursor: pointer;
 	transition: all 0.3s ease-in-out;
-	color: white;
-	text-align: center;
-}
-
-.button:hover {
+  
+	color: #3c4043; 
+	width: 100%;
+  }
+  
+  .button:hover {
 	background-color: #f7f8f8;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 	border-color: #3c4043;
-	color: #3c4043;
-}
-
-.button:active {
+	color: #3c4043;;
+  }
+  
+  .button:active {
 	background-color: #eee;
-}
-
-.logo {
+  }
+  
+  .logo {
 	flex-shrink: 0;
-}
-
-.text {
+  }
+  
+  .text {
 	font-family: "Roboto", Arial, sans-serif;
 	font-size: 16px;
 	font-weight: 500;
-	
-}
+
+  }
