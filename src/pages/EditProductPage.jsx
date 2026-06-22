@@ -1,8 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "../styles/EditProductPage.css";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { API_URL } from "./constants";
+
 import { supabase } from "../lib/supabase";
 
 export default function EditProductPage() {
